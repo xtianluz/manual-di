@@ -19,7 +19,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val appContainer = (application as SearchApplication).appContainer
-        bookSearchViewModel = BookSearchViewModel(appContainer.searchRepository)
+//        bookSearchViewModel = BookSearchViewModel(appContainer.searchRepository)
+        bookSearchViewModel = appContainer.bookSearchViewModelFactory.create()
+
         setContent {
             GoogleApiTheme {
                 // A surface container using the 'background' color from the theme

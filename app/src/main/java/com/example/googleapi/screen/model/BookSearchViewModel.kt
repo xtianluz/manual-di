@@ -1,6 +1,5 @@
 package com.example.googleapi.screen.model
 
-
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.googleapi.screen.data.SearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+
 
 sealed interface BookSearchUiState {
     data class Success(val searchedItems: List<String>) : BookSearchUiState
@@ -32,28 +31,30 @@ class BookSearchViewModel(private val searchRepository: SearchRepository) : View
     }
 
     fun getSearch(){
-//        thumbnailList.clear()
-//        getSearchItems()
-        runBlocking {
-            val result = searchRepository.getSearchItems(userInput)
-            val items = result.items
-            println(items)
-        }
+        thumbnailList.clear()
+        getSearchItems()
+
     }
 
     private fun getSearchItems(){
         searchUiState = BookSearchUiState.Loading
         viewModelScope.launch(Dispatchers.IO) {
-//            try{
-//                val searchRepository = SearchRepositoryClass()
-//                val result = searchRepository.getSearchItems(userInput)
-//                val items = result.items
-//                items?.forEach { i -> i.volumeInfo?.imageLinks?.thumbnail?.replace("http", "https")?.let { thumbnailList.add(it)} }
-//                searchUiState = BookSearchUiState.Success(thumbnailList)
-//
-//            } catch (e: HttpException){
-//                searchUiState = BookSearchUiState.Error
-//            }
+            try{
+                val result = searchRepository.getSearchItems(userInput)
+                val items = result.items
+                items?.forEach { i ->
+                    i.volumeInfo?.imageLinks?.thumbnail?.replace("http", "https").let {
+                        searchUiState = if (it != null) {
+                            thumbnailList.add(it)
+                            BookSearchUiState.Success(thumbnailList)
+                        } else{
+                            BookSearchUiState.Error
+                        }
+                    }
+                }
+            } catch(e: Exception){
+                searchUiState = BookSearchUiState.Error
+            }
         }
     }
 }

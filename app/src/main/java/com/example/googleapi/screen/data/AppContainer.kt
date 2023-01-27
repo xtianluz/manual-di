@@ -33,7 +33,11 @@ class AppContainer {
         }
     }
 
-    val searchRepository by lazy {
+    private val searchRepository by lazy {
         SearchRepository(retrofitService)
+    }
+
+    val bookSearchViewModelFactory by lazy {
+        BookSearchViewModelFactory(searchRepository)
     }
 }
