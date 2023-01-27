@@ -28,8 +28,7 @@ import com.example.googleapi.screen.model.BookSearchViewModel
 import com.example.googleapi.ui.theme.GoogleApiTheme
 
 @Composable
-fun BookSearchScreen(){
-    val searchViewModel: BookSearchViewModel = viewModel()
+fun BookSearchScreen(searchViewModel: BookSearchViewModel){
 
     Column {
         SearchBar(

@@ -1,14 +1,24 @@
 package com.example.googleapi.screen.data
 
 import com.example.googleapi.screen.model.SearchDataModel
-import com.example.googleapi.screen.network.BookSearchApi
+import com.example.googleapi.screen.network.SearchApiService
 
-interface SearchRepository {
+//interface SearchRepository {
+//    suspend fun getSearchItems(input: String): SearchDataModel
+//}
+
+//class SearchRepositoryClass  {
+//    override suspend fun getSearchItems(input: String): SearchDataModel {
+//        return BookSearchApi.retrofitService.getItems(input)
+//    }
+//}
+
+interface SearchRepositoryInterface {
     suspend fun getSearchItems(input: String): SearchDataModel
 }
 
-class SearchRepositoryClass : SearchRepository {
+class SearchRepository(private val searchApiService: SearchApiService) : SearchRepositoryInterface {
     override suspend fun getSearchItems(input: String): SearchDataModel {
-        return BookSearchApi.retrofitService.getItems(input)
+        return searchApiService.getItems(input)
     }
 }
