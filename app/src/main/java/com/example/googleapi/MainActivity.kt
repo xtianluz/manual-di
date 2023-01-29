@@ -13,6 +13,8 @@ import com.example.googleapi.ui.theme.GoogleApiTheme
 
 class MainActivity : ComponentActivity() {
 
+    //Refer to google-api main project, for complete codes
+
     private lateinit var bookSearchViewModel: BookSearchViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
